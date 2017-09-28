@@ -1,4 +1,4 @@
-FROM openjdk:latest
+FROM openjdk:8
 
 RUN apt-get -y update
 RUN wget https://github.com/riemann/riemann/releases/download/0.2.14/riemann_0.2.14_all.deb && dpkg -i riemann_0.2.14_all.deb
