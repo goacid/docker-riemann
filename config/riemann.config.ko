@@ -1,0 +1,63 @@
+; vim: filetype=clojure
+
+(logging/init :file "riemann.log")
+
+; Email settings
+(def email (mailer {:host "maildev"
+                    :port 25
+                    :from "riemann@maildev"}))
+(def mail-rescue-team (email "rescue-team@maildev"))
+(def mail-supply-team (email "supply-team@maildev"))
+
+; Influxdb settings
+(def influxdb-creds {
+     :version :0.9
+     :host "influxdb"
+     :port 8086
+     :db "metrics_db"
+     :username "riemann"
+     :password "riemann"
+})
+
+(def influxBatchSender
+  (batch 100 1/10
+         (async-queue! :agg {:queue-size 1000
+                             :core-pool-size 1
+                             :max-pool-size 4
+                             :keep-alive-time 60000}
+                       (influxdb influxdb-creds))))
+
+; Listen on all interfaces for TCP (5555/5556) and UDP (5555)
+(let [host "0.0.0.0"]
+  (tcp-server :host host)
+  (udp-server :host host)
+  (ws-server  :host host))
+
+; Expire old events from the index every 30 seconds.
+(periodically-expire 30)
+
+; Log specific events
+(streams
+  (where (or (tagged "creature")
+             (tagged "weapon")
+             (tagged "player"))
+         #(info %)))
+
+; Email notifications
+(streams
+  (where (and (state "critical")
+              (tagged "player"))
+    mail-rescue-team))
+
+(streams
+  (where (and (state "critical")
+              (tagged "weapon"))
+    mail-supply-team))
+
+; Index all events
+(let [index (index)]
+  (streams
+   (default :ttl 60
+     index
+     #(info %)
+     influxBatchSender)))

@@ -6,8 +6,8 @@ RUN apt-get install -y build-essential ruby ruby-dev zlib1g-dev
 
 # Install Riemann dashboard
 RUN gem install riemann-client riemann-tools riemann-dash
-RUN apt-get install -y python-pyp
-RUN pip install python-riemann-client
+RUN apt-get install -y python-pip
+RUN pip install riemann-client
 
 # Add riemann configuration and script files
 #ADD ./config/riemann.config /etc/riemann/riemann.config

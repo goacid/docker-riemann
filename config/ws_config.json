@@ -1,0 +1,117 @@
+{
+  "server": "127.0.0.1:5556",
+  "server_type": "ws",
+  "workspaces": [
+    {
+      "name": "Nightmare Creatures",
+      "view": {
+        "type": "Balloon",
+        "weight": 1,
+        "version": 12,
+        "child": {
+          "type": "VStack",
+          "weight": 1,
+          "version": 12,
+          "children": [
+            {
+              "type": "Flot",
+              "weight": 1,
+              "version": 12,
+              "title": "Creatures Killed",
+              "query": "(service = \"vampire killed\") or\r\n(service = \"werewolf killed\") or\r\n(service = \"zombie killed\") or\r\n(service = \"unicorn killed\")",
+              "min": "0",
+              "max": "15",
+              "timeRange": 3000,
+              "graphType": "line",
+              "stackMode": "true"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Guns",
+      "view": {
+        "type": "Balloon",
+        "weight": 1,
+        "version": 6,
+        "child": {
+          "type": "VStack",
+          "weight": 1,
+          "version": 6,
+          "children": [
+            {
+              "type": "Grid",
+              "weight": 1,
+              "version": 6,
+              "title": "Guns Ammo",
+              "query": "(service = \"shotgun ammo total\") or\r\n(service = \"ak47 ammo total\") or\r\n(service = \"railgun ammo total\") or\r\n(service = \"bfg ammo total\")",
+              "max": "",
+              "rows": "",
+              "cols": "",
+              "row_sort": "lexical",
+              "col_sort": "lexical"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Players",
+      "view": {
+        "type": "Balloon",
+        "weight": 1,
+        "version": 10,
+        "child": {
+          "type": "VStack",
+          "weight": 1,
+          "version": 10,
+          "children": [
+            {
+              "type": "HStack",
+              "weight": 1,
+              "version": 4,
+              "children": [
+                {
+                  "type": "Gauge",
+                  "weight": 1,
+                  "version": 3,
+                  "title": "Chris Redfield",
+                  "query": "(service = \"chris health total\")"
+                },
+                {
+                  "type": "Gauge",
+                  "weight": 1,
+                  "version": 3,
+                  "title": "Albert Wesker",
+                  "query": "(service = \"wesker health total\")"
+                }
+              ]
+            },
+            {
+              "type": "HStack",
+              "weight": 1,
+              "version": 4,
+              "children": [
+                {
+                  "type": "Gauge",
+                  "weight": 1,
+                  "version": 2,
+                  "title": "Claire Redfield",
+                  "query": "(service = \"claire health total\")"
+                },
+                {
+                  "type": "Gauge",
+                  "weight": 1,
+                  "version": 2,
+                  "title": "Jill Valentine",
+                  "query": "(service = \"jill health total\")"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
