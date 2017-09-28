@@ -15,6 +15,8 @@ ADD ./config/riemann-dash-config.rb /etc/riemann/riemann-dash-config.rb
 ADD ./config/ws_config.json /etc/riemann/ws_config.json
 ADD ./scripts/start.sh /usr/local/bin/start.sh
 
+#cleaning
+RUN apt-get clean -y
 # Expose ports
 EXPOSE 4567
 EXPOSE 5555/tcp
